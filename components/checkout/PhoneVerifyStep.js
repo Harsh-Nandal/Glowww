@@ -5,7 +5,8 @@ import { useDispatch } from 'react-redux'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { isFirebaseConfigured, getFirebaseAuth } from '@/lib/firebase'
+import { isFirebaseConfigured } from '@/lib/firebaseConfig'
+import { getFirebaseAuth } from '@/lib/firebase'
 import { setPhoneVerified } from '@/store/slices/authSlice'
 
 const CARD_STYLE = {

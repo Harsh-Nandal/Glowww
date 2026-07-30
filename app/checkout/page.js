@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectCartItems,
@@ -13,8 +14,14 @@ import {
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
-import PhoneVerifyStep from '@/components/checkout/PhoneVerifyStep'
-import { isFirebaseConfigured } from '@/lib/firebase'
+import { isFirebaseConfigured } from '@/lib/firebaseConfig'
+
+// ssr:false is load-bearing, not a perf nicety — PhoneVerifyStep pulls in
+// firebase/auth, whose platform-detection code executes at import time and
+// crashes Next's Node-based prerendering (surfaces as an unrelated
+// "useContext" error across every page in the export, not just checkout).
+// Keeping it client-only means Firebase is never touched during the build.
+const PhoneVerifyStep = dynamic(() => import('@/components/checkout/PhoneVerifyStep'), { ssr: false })
 
 const PAYMENT_METHODS = [
   { id: 'cod',        label: 'Cash on Delivery',     icon: '💵' },
