@@ -54,7 +54,7 @@ export default function AdminLayout({ children }) {
             href="/admin/dashboard"
             style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--white)', textDecoration: 'none', display: 'block' }}
           >
-            Black<span style={{ color: 'var(--gold)' }}>Roaster</span>
+            GL<span style={{ color: 'var(--gold)' }}>OWW</span>
           </Link>
           <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.58rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', marginTop: '3px' }}>
             Admin Console

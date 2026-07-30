@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
+import { motion } from 'framer-motion'
+import { Search, Heart, ShoppingBag, Menu } from 'lucide-react'
 import { toggleCart } from '@/store/slices/cartSlice'
 import { toggleMobileMenu, toggleSearch } from '@/store/slices/uiSlice'
 import { selectCartCount } from '@/store/slices/cartSlice'
@@ -12,9 +14,9 @@ import SearchOverlay from '../ui/SearchOverlay'
 import CartDrawer from '../cart/CartDrawer'
 
 const navLinks = [
-  { label: 'Collections', href: '/shop?view=collections' },
   { label: 'Shop', href: '/shop' },
-  { label: 'Install Guide', href: '/install-guide' },
+  { label: 'Shop by Concern', href: '/shop?view=concern' },
+  { label: 'Best Sellers', href: '/shop?bestSeller=true' },
   { label: 'Our Story', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ]
@@ -37,13 +39,13 @@ export default function Navbar() {
   const isAdminRoute = pathname?.startsWith('/admin')
   if (isAdminRoute) return null
 
-  // Only transparent on the home page (which has a dark hero). All other pages get a dark solid nav.
+  // Only transparent on the home page (which has a dark hero). All other pages get a glass-dark nav.
   const isHomePage = pathname === '/'
   const navBg = scrolled
-    ? 'rgba(255,255,255,0.97)'
+    ? 'rgba(255,255,255,0.85)'
     : isHomePage
       ? 'transparent'
-      : 'rgba(17,17,17,0.97)'
+      : 'rgba(11,31,23,0.75)'
   const iconColor = scrolled ? 'var(--charcoal)' : 'var(--white)'
   const linkColor = scrolled ? 'var(--grey-dark)' : 'rgba(255,255,255,0.85)'
 
@@ -63,8 +65,10 @@ export default function Navbar() {
           justifyContent: 'space-between',
           transition: 'background 0.4s ease, box-shadow 0.4s ease',
           background: navBg,
-          boxShadow: scrolled ? '0 1px 0 rgba(0,0,0,0.08)' : 'none',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+          boxShadow: scrolled ? '0 8px 32px rgba(11,31,23,0.08)' : 'none',
+          backdropFilter: scrolled || !isHomePage ? 'blur(18px)' : 'none',
+          WebkitBackdropFilter: scrolled || !isHomePage ? 'blur(18px)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(11,31,23,0.06)' : '1px solid transparent',
         }}
       >
         {/* Logo */}
@@ -72,16 +76,15 @@ export default function Navbar() {
           href="/"
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: '1.4rem',
-            fontWeight: 400,
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase',
+            fontSize: '1.5rem',
+            fontWeight: 500,
+            letterSpacing: '0.04em',
             color: scrolled ? 'var(--charcoal)' : 'var(--white)',
             textDecoration: 'none',
             transition: 'color 0.4s',
           }}
         >
-          Black<span style={{ color: 'var(--gold)' }}>Roaster</span>
+          GL<span className="gradient-text">OWW</span>
         </Link>
 
         {/* Desktop links */}
@@ -101,39 +104,37 @@ export default function Navbar() {
         </ul>
 
         {/* Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.35rem' }}>
+          <motion.button
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.94 }}
             onClick={() => dispatch(toggleSearch())}
             aria-label="Search"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: iconColor, fontSize: '1.1rem', display: 'flex', alignItems: 'center', transition: 'color 0.3s' }}
-            onMouseEnter={(e) => (e.target.style.color = 'var(--gold)')}
-            onMouseLeave={(e) => (e.target.style.color = scrolled ? 'var(--charcoal)' : 'var(--white)')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: iconColor, display: 'flex', alignItems: 'center', transition: 'color 0.3s' }}
           >
-            ⌕
-          </button>
+            <Search size={18} strokeWidth={1.75} />
+          </motion.button>
 
-          <Link
-            href="/wishlist"
-            aria-label="Wishlist"
-            style={{ color: iconColor, fontSize: '0.95rem', display: 'flex', transition: 'color 0.3s' }}
-            onMouseEnter={(e) => (e.target.style.color = 'var(--gold)')}
-            onMouseLeave={(e) => (e.target.style.color = scrolled ? 'var(--charcoal)' : 'var(--white)')}
-          >
-            ♡
-          </Link>
+          <motion.div whileHover={{ scale: 1.12 }} whileTap={{ scale: 0.94 }}>
+            <Link href="/wishlist" aria-label="Wishlist" style={{ color: iconColor, display: 'flex', transition: 'color 0.3s' }}>
+              <Heart size={18} strokeWidth={1.75} />
+            </Link>
+          </motion.div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.94 }}
             onClick={() => dispatch(toggleCart())}
             aria-label={`Cart (${cartCount} items)`}
             style={{ background: 'none', border: 'none', cursor: 'pointer', position: 'relative', color: iconColor, display: 'flex', alignItems: 'center', transition: 'color 0.3s' }}
           >
-            <span style={{ fontSize: '1rem' }}>🛍</span>
+            <ShoppingBag size={18} strokeWidth={1.75} />
             {mounted && cartCount > 0 && (
-              <span style={{ position: 'absolute', top: '-6px', right: '-8px', background: 'var(--gold)', color: 'var(--charcoal)', borderRadius: '50%', width: '18px', height: '18px', fontSize: '0.65rem', fontFamily: 'var(--font-ui)', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ position: 'absolute', top: '-8px', right: '-10px', background: 'var(--gradient-primary)', color: 'var(--white)', borderRadius: '50%', width: '18px', height: '18px', fontSize: '0.62rem', fontFamily: 'var(--font-ui)', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {cartCount > 9 ? '9+' : cartCount}
               </span>
             )}
-          </button>
+          </motion.button>
 
           {isAuthenticated ? (
             <Link
@@ -145,7 +146,7 @@ export default function Navbar() {
           ) : (
             <Link
               href="/auth/login"
-              style={{ fontFamily: 'var(--font-ui)', fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', background: 'var(--gold)', color: 'var(--charcoal)', padding: '0.5rem 1.2rem', fontWeight: 500, textDecoration: 'none', display: 'none' }}
+              style={{ fontFamily: 'var(--font-ui)', fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', background: 'var(--gradient-primary)', color: 'var(--white)', borderRadius: 'var(--radius-full)', padding: '0.6rem 1.4rem', fontWeight: 500, textDecoration: 'none', display: 'none', boxShadow: 'var(--shadow-emerald)' }}
               className="nav-login-btn"
             >
               Login
@@ -156,11 +157,9 @@ export default function Navbar() {
             onClick={() => dispatch(toggleMobileMenu())}
             aria-label="Menu"
             className="hamburger-btn"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'none', flexDirection: 'column', gap: '5px', padding: '4px' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'none', color: iconColor, padding: '4px' }}
           >
-            {[0, 1, 2].map((i) => (
-              <span key={i} style={{ display: 'block', width: i === 1 ? '18px' : '24px', height: '1.5px', background: iconColor, transition: 'all 0.3s' }} />
-            ))}
+            <Menu size={22} strokeWidth={1.75} />
           </button>
         </div>
       </nav>

@@ -1,65 +1,76 @@
 'use client'
 
+import { motion } from 'framer-motion'
+import { FlaskConical, Sprout, ShieldCheck, Recycle, Truck, Award } from 'lucide-react'
+import Reveal from '@/components/ui/Reveal'
+
 const WHY_US = [
   {
-    icon: '◈',
-    title: 'Premium Quality PVC',
-    desc: 'Crafted from virgin PVC compounds, our panels meet BIS standards for quality, strength, and safety — tested for every Indian climate.',
+    Icon: FlaskConical,
+    title: 'Lab-Tested Purity',
+    desc: 'Every batch is third-party tested for potency and contaminants before it ships — full certificates of analysis available on request.',
   },
   {
-    icon: '◉',
-    title: 'Easy Installation',
-    desc: 'Our click-lock and adhesive-ready panels can be installed by any handyman in hours. No special tools, no heavy construction mess.',
+    Icon: Sprout,
+    title: 'Clean-Label Ingredients',
+    desc: 'No added sugar, artificial colours, or fillers. Just sea buckthorn, moringa, and other whole-food actives — nothing to hide on the label.',
   },
   {
-    icon: '◇',
-    title: 'Waterproof & Durable',
-    desc: '100% waterproof and humidity-resistant, making our panels ideal for bathrooms, kitchens, and high-traffic commercial spaces.',
+    Icon: ShieldCheck,
+    title: '100% Vegan & Non-GMO',
+    desc: 'Every product in our range is plant-based, non-GMO, and cruelty-free — safe for the whole family and kind to the planet.',
   },
   {
-    icon: '◎',
-    title: 'Fire Retardant',
-    desc: 'All panels are V0/V2 rated fire retardant, meeting safety norms for residential and commercial use — your safety is our priority.',
+    Icon: Award,
+    title: 'FSSAI Certified',
+    desc: 'Manufactured in FSSAI-licensed facilities under strict quality protocols, meeting safety norms for nutraceuticals and functional foods.',
   },
   {
-    icon: '◈',
-    title: 'Eco-Friendly Materials',
-    desc: 'Manufactured without toxic heavy metals. Low VOC emission — safe for homes with children, pets, and sensitive individuals.',
+    Icon: Recycle,
+    title: 'Sustainably Sourced',
+    desc: 'Ingredients are sourced directly from growers with fair-trade practices, and packaging is recyclable wherever possible.',
   },
   {
-    icon: '◉',
-    title: 'Custom Sizes Available',
-    desc: "Can't find the right fit? We cut panels to your exact specifications at no extra cost for bulk orders. Perfect for any project.",
+    Icon: Truck,
+    title: 'Cold-Chain Delivery',
+    desc: 'Temperature-sensitive products ship in insulated packaging so potency and freshness are locked in until they reach your door.',
   },
 ]
 
 export default function WhyUsSection() {
   return (
     <section className="section" id="why">
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '4rem', flexWrap: 'wrap', gap: '2rem' }}>
-        <div>
-          <div className="section-eyebrow">Why BlackRoaster</div>
-          <h2 className="section-title">
-            Built for <em>Better Spaces</em>
-          </h2>
+      <Reveal>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '4rem', flexWrap: 'wrap', gap: '2rem' }}>
+          <div>
+            <div className="section-eyebrow">Why GLOWW</div>
+            <h2 className="section-title">
+              Built for <em>Better Wellness</em>
+            </h2>
+          </div>
+          <p className="section-subtitle">
+            Every product we make goes through rigorous quality checks before it leaves our facility.
+          </p>
         </div>
-        <p className="section-subtitle">
-          Every panel we make goes through rigorous quality checks before it leaves our facility.
-        </p>
-      </div>
+      </Reveal>
 
       <div className="why-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
         {WHY_US.map((item, i) => (
-          <div
-            key={item.title}
-            style={{ padding: '2.5rem', background: i % 2 === 0 ? 'var(--ivory)' : 'var(--white)', border: '1px solid var(--grey-mid)', transition: 'border-color 0.3s, box-shadow 0.3s', cursor: 'default' }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.06)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--grey-mid)'; e.currentTarget.style.boxShadow = 'none' }}
-          >
-            <div style={{ fontSize: '1.5rem', color: 'var(--gold)', marginBottom: '1.2rem' }}>{item.icon}</div>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 500, marginBottom: '0.75rem' }}>{item.title}</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--grey-text)', lineHeight: 1.8, fontWeight: 300 }}>{item.desc}</p>
-          </div>
+          <Reveal key={item.title} delay={i * 0.06}>
+            <motion.div
+              whileHover={{ y: -6 }}
+              style={{ padding: '2.5rem', height: '100%', borderRadius: 'var(--radius)', background: i % 2 === 0 ? 'var(--ivory)' : 'var(--white)', boxShadow: 'var(--shadow)', transition: 'box-shadow 0.3s', cursor: 'default' }}
+            >
+              <div style={{
+                width: '52px', height: '52px', borderRadius: 'var(--radius-sm)', background: 'var(--gradient-primary)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.4rem', boxShadow: 'var(--shadow-emerald)',
+              }}>
+                <item.Icon size={24} strokeWidth={1.75} color="var(--white)" />
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 500, marginBottom: '0.75rem' }}>{item.title}</h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--grey-text)', lineHeight: 1.8, fontWeight: 300 }}>{item.desc}</p>
+            </motion.div>
+          </Reveal>
         ))}
       </div>
 

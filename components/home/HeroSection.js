@@ -1,140 +1,204 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import MagneticButton from '@/components/ui/MagneticButton'
+import PromoBar from './PromoBar'
 
-const heroStats = [
-  { value: '500+', label: 'Panel Designs' },
-  { value: '10K+', label: 'Projects Done' },
+const TRUST_STRIP = [
+  { value: '50+', label: 'Wellness Products' },
+  { value: '1M+', label: 'Bottles Sold' },
   { value: '4.9★', label: 'Avg. Rating' },
+  { value: '₹999+', label: 'Free Shipping' },
 ]
 
+const SLIDES = [
+  {
+    seed: 'hero-nourish',
+    image: 'https://images.pexels.com/photos/2994/healthy-fruits-morning-kitchen.jpg?auto=compress&cs=tinysrgb&w=1600',
+    pill: 'Bestseller',
+    title: ['Nourish From', 'Within, Daily'],
+    subtitle: 'Cold-pressed juices & clean-label tablets — sea buckthorn, moringa and more, lab-tested for purity.',
+    cta: { label: 'Shop Now', href: '/shop' },
+  },
+  {
+    seed: 'hero-combo',
+    image: 'https://images.pexels.com/photos/3850692/pexels-photo-3850692.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    pill: 'Limited Time',
+    title: ['Buy 2, Get 1', 'Free on Combos'],
+    subtitle: 'Stock up on our bestselling wellness combo kits — this week only.',
+    cta: { label: 'Shop Combos', href: '/shop?category=combos' },
+  },
+  {
+    seed: 'hero-gut',
+    image: 'https://images.pexels.com/photos/33864616/pexels-photo-33864616.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    pill: 'New Launch',
+    title: ['Gut Health', 'Starter Kit'],
+    subtitle: 'A gentle 3-part ritual for a happier gut, delivered together.',
+    cta: { label: 'Explore Kit', href: '/product/gut-health-starter-kit' },
+  },
+]
+
+const wordContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09 } },
+}
+const wordChild = {
+  hidden: { y: 40, opacity: 0 },
+  show: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+}
+
 export default function HeroSection() {
-  const heroRef = useRef(null)
+  const bannerRef = useRef(null)
+  const [slide, setSlide] = useState(0)
+  const current = SLIDES[slide]
+
+  const { scrollYProgress } = useScroll({ target: bannerRef, offset: ['start start', 'end start'] })
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
 
   useEffect(() => {
-    const hero = heroRef.current
-    if (!hero) return
-    const handleMouseMove = (e) => {
-      const { clientX, clientY } = e
-      const { innerWidth, innerHeight } = window
-      const x = (clientX / innerWidth - 0.5) * 30
-      const y = (clientY / innerHeight - 0.5) * 20
-      const visual = hero.querySelector('.hero-visual-inner')
-      if (visual) visual.style.transform = `translate(${x}px, ${y}px)`
-    }
-    hero.addEventListener('mousemove', handleMouseMove)
-    return () => hero.removeEventListener('mousemove', handleMouseMove)
+    const timer = setInterval(() => setSlide((s) => (s + 1) % SLIDES.length), 6000)
+    return () => clearInterval(timer)
   }, [])
 
+  const next = () => setSlide((s) => (s + 1) % SLIDES.length)
+  const prev = () => setSlide((s) => (s - 1 + SLIDES.length) % SLIDES.length)
+
   return (
-    <section
-      ref={heroRef}
-      style={{ minHeight: '100vh', background: 'var(--charcoal)', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}
-    >
-      {/* Background grid */}
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(rgba(201,168,106,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,106,0.04) 1px, transparent 1px)`, backgroundSize: '60px 60px', pointerEvents: 'none' }} />
+    <section style={{ background: 'var(--charcoal)', paddingTop: '72px' }}>
+      <PromoBar />
 
-      {/* Gold accent line */}
-      <div style={{ position: 'absolute', top: 0, left: '6vw', width: '1px', height: '45%', background: 'linear-gradient(to bottom, transparent, var(--gold), transparent)', opacity: 0.4 }} />
+      <div ref={bannerRef} className="hero-banner" style={{ position: 'relative', width: '100%', height: 'clamp(460px, 62vw, 640px)', overflow: 'hidden' }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.seed}
+            initial={{ opacity: 0, scale: 1.06 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            style={{ position: 'absolute', inset: 0, y: parallaxY }}
+          >
+            <img
+              src={current.image}
+              alt={current.title.join(' ')}
+              style={{ width: '100%', height: '120%', objectFit: 'cover' }}
+            />
+          </motion.div>
+        </AnimatePresence>
 
-      <div
-        style={{ padding: '0 6vw', width: '100%', maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'center', paddingTop: '72px' }}
-        className="hero-inner"
-      >
-        {/* Left content */}
-        <div>
-          <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.68rem', letterSpacing: '0.45em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span style={{ display: 'inline-block', width: '40px', height: '1px', background: 'var(--gold)' }} />
-            Premium PVC Wall Panels
-          </div>
+        {/* Brand-colour scrim for legibility */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, rgba(7,59,38,0.88) 0%, rgba(7,59,38,0.55) 40%, rgba(15,107,68,0.15) 70%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'var(--gradient-mesh)', mixBlendMode: 'overlay' }} />
 
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.8rem, 6vw, 5.5rem)', fontWeight: 300, lineHeight: 1.05, color: 'var(--white)', marginBottom: '1.5rem' }}>
-            Elevate Every<br />
-            <em style={{ fontStyle: 'italic', color: 'var(--gold)', display: 'block' }}>Wall, Every Room</em>
-          </h1>
+        {/* Text content */}
+        <div style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center', padding: '0 6vw', maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '560px' }}>
+            <AnimatePresence mode="wait">
+              <motion.div key={current.seed} initial="hidden" animate="show" exit={{ opacity: 0, y: -10 }}>
+                <motion.span
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  style={{
+                    display: 'inline-block', marginBottom: '1.25rem', padding: '0.4rem 1rem', borderRadius: 'var(--radius-full)',
+                    background: 'var(--gradient-gold)', color: 'var(--emerald-dark)', fontFamily: 'var(--font-ui)',
+                    fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700,
+                  }}
+                >
+                  {current.pill}
+                </motion.span>
 
-          <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, fontWeight: 300, maxWidth: '460px', marginBottom: '2.5rem' }}>
-            Precision-crafted PVC wall panels that transform interiors instantly. Waterproof, fire-retardant, and built to last — designed for modern Indian homes and commercial spaces.
-          </p>
+                <motion.h1
+                  variants={wordContainer}
+                  style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.6rem, 5.5vw, 4.6rem)', fontWeight: 300, lineHeight: 1.05, color: 'var(--white)', marginBottom: '1.25rem' }}
+                >
+                  {current.title.map((line, li) => (
+                    <span key={li} style={{ display: 'block', overflow: 'hidden', paddingBottom: '0.1em' }}>
+                      {line.split(' ').map((word, wi) => (
+                        <motion.span key={wi} variants={wordChild} style={{ display: 'inline-block', marginRight: '0.28em', fontStyle: li === 1 ? 'italic' : 'normal', color: li === 1 ? 'var(--soft-yellow)' : 'var(--white)' }}>
+                          {word}
+                        </motion.span>
+                      ))}
+                    </span>
+                  ))}
+                </motion.h1>
 
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
-            <Link
-              href="/shop"
-              style={{ background: 'var(--gold)', color: 'var(--charcoal)', fontFamily: 'var(--font-ui)', fontSize: '0.72rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600, padding: '0 2rem', height: '52px', display: 'inline-flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none', transition: 'all 0.3s' }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--white)' }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--gold)' }}
-            >
-              Shop Panels →
-            </Link>
-            <Link
-              href="/about"
-              style={{ background: 'transparent', color: 'var(--white)', border: '1.5px solid rgba(255,255,255,0.3)', fontFamily: 'var(--font-ui)', fontSize: '0.72rem', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 500, padding: '0 2rem', height: '52px', display: 'inline-flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none', transition: 'all 0.3s' }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--white)'; e.currentTarget.style.color = 'var(--charcoal)' }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--white)' }}
-            >
-              View Installations
-            </Link>
-          </div>
+                <motion.p
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, fontWeight: 300, marginBottom: '2.25rem' }}
+                >
+                  {current.subtitle}
+                </motion.p>
 
-          {/* Stats */}
-          <div style={{ display: 'flex', gap: '3rem' }}>
-            {heroStats.map((stat, i) => (
-              <div key={stat.label} style={{ position: 'relative' }}>
-                {i > 0 && <div style={{ position: 'absolute', left: '-1.5rem', top: '50%', transform: 'translateY(-50%)', height: '30px', width: '1px', background: 'rgba(255,255,255,0.12)' }} />}
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 400, color: 'var(--white)', lineHeight: 1 }}>{stat.value}</div>
-                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginTop: '4px' }}>{stat.label}</div>
-              </div>
-            ))}
+                <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }}>
+                  <MagneticButton>
+                    <Link
+                      href={current.cta.href}
+                      style={{
+                        background: 'var(--gradient-gold)', color: 'var(--emerald-dark)', fontFamily: 'var(--font-ui)', fontSize: '0.75rem',
+                        letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, padding: '0 2.2rem', height: '54px',
+                        display: 'inline-flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none', borderRadius: 'var(--radius-full)', boxShadow: 'var(--shadow-gold)',
+                      }}
+                    >
+                      {current.cta.label} →
+                    </Link>
+                  </MagneticButton>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 
-        {/* Right visual */}
-        <div style={{ position: 'relative' }} className="hero-visual">
-          <div className="hero-visual-inner" style={{ transition: 'transform 0.3s ease', willChange: 'transform' }}>
-            {/* Panel texture visual */}
-            <div style={{ aspectRatio: '3/4', background: 'linear-gradient(135deg, #1a1610 0%, #0d0b08 100%)', position: 'relative', overflow: 'hidden' }}>
-              {/* 3D panel grid pattern */}
-              <div style={{ position: 'absolute', inset: 0, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'repeat(6, 1fr)', gap: '4px', padding: '4px' }}>
-                {Array.from({ length: 24 }).map((_, i) => (
-                  <div key={i} style={{ background: `linear-gradient(${135 + (i % 4) * 15}deg, rgba(201,168,106,${0.06 + (i % 3) * 0.03}) 0%, rgba(201,168,106,0.02) 100%)`, border: '1px solid rgba(201,168,106,0.08)' }} />
-                ))}
-              </div>
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem', background: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent)' }}>
-                <div style={{ color: 'var(--gold)', fontFamily: 'var(--font-ui)', fontSize: '0.68rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Now Available</div>
-                <div style={{ color: 'var(--white)', fontFamily: 'var(--font-display)', fontSize: '1.2rem' }}>3D Geometric Series</div>
-                <div style={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'var(--font-ui)', fontSize: '0.72rem', marginTop: '4px' }}>Waterproof · Fire Retardant · Easy Install</div>
-              </div>
-            </div>
+        {/* Arrows */}
+        <button onClick={prev} aria-label="Previous banner" className="hero-arrow" style={{ position: 'absolute', left: '1.5rem', top: '50%', transform: 'translateY(-50%)' }}>
+          <ChevronLeft size={20} />
+        </button>
+        <button onClick={next} aria-label="Next banner" className="hero-arrow" style={{ position: 'absolute', right: '1.5rem', top: '50%', transform: 'translateY(-50%)' }}>
+          <ChevronRight size={20} />
+        </button>
 
-            {/* Floating badge */}
-            <div style={{ position: 'absolute', top: '-1.5rem', right: '-1.5rem', background: 'var(--gold)', padding: '1.2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: 'var(--charcoal)', lineHeight: 1 }}>BIS</div>
-              <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--charcoal)' }}>Certified</div>
-            </div>
-
-            <div style={{ position: 'absolute', bottom: '2rem', left: '-2rem', background: 'rgba(17,17,17,0.95)', border: '1px solid rgba(201,168,106,0.2)', padding: '1rem 1.5rem' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: 'var(--gold)' }}>★ 4.9</div>
-              <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>10,000+ Projects</div>
-            </div>
-          </div>
+        {/* Dots */}
+        <div style={{ position: 'absolute', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '0.5rem' }}>
+          {SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setSlide(i)}
+              aria-label={`Show banner ${i + 1}`}
+              style={{
+                width: i === slide ? '22px' : '7px', height: '7px', borderRadius: 'var(--radius-full)', border: 'none', cursor: 'pointer',
+                background: i === slide ? 'var(--soft-yellow)' : 'rgba(255,255,255,0.45)', transition: 'all 0.3s',
+              }}
+            />
+          ))}
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div style={{ position: 'absolute', bottom: '2.5rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-        <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.62rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>Scroll</div>
-        <div style={{ width: '1px', height: '40px', background: 'linear-gradient(to bottom, rgba(255,255,255,0.4), transparent)', animation: 'scrollPulse 2s ease-in-out infinite' }} />
+      {/* Trust strip */}
+      <div style={{ background: 'var(--gradient-primary)', padding: '1.5rem 6vw' }} className="trust-strip">
+        {TRUST_STRIP.map((stat, i) => (
+          <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', color: 'var(--white)', fontWeight: 500 }}>{stat.value}</span>
+            <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{stat.label}</span>
+            {i < TRUST_STRIP.length - 1 && <span style={{ width: '1px', height: '18px', background: 'rgba(255,255,255,0.15)', marginLeft: '0.5rem' }} />}
+          </div>
+        ))}
       </div>
 
       <style>{`
-        @keyframes scrollPulse {
-          0%, 100% { opacity: 0.4; transform: scaleY(1); }
-          50% { opacity: 1; transform: scaleY(1.2); }
+        .hero-arrow {
+          width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer;
+          background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); color: var(--white);
+          display: flex; align-items: center; justify-content: center; transition: background 0.3s;
         }
+        .hero-arrow:hover { background: rgba(255,255,255,0.3); }
+        .trust-strip { display: flex; align-items: center; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
         @media (max-width: 768px) {
-          .hero-inner { grid-template-columns: 1fr !important; padding-top: 100px !important; padding-bottom: 60px !important; }
-          .hero-visual { display: none !important; }
+          .hero-arrow { display: none; }
+          .trust-strip { gap: 1.5rem; }
         }
       `}</style>
     </section>

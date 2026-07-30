@@ -84,7 +84,7 @@ export default function WishlistPage() {
                           onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
                         />
                       ) : (
-                        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f0ede8, #e0dbd3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--grey-text)' }}>BlackRoaster</div>
+                        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f0ede8, #e0dbd3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--grey-text)' }}>GLOWW</div>
                       )}
                     </div>
                     <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 400, marginBottom: '0.4rem', color: 'var(--charcoal)' }}>{item.name}</h3>

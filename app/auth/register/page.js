@@ -40,7 +40,7 @@ export default function RegisterPage() {
     }
     const result = await dispatch(registerUser({ name: form.name, email: form.email, phone: form.phone, password: form.password }))
     if (!result.error) {
-      toast.success('Account created! Welcome to BlackRoaster.')
+      toast.success('Account created! Welcome to GLOWW.')
       router.push('/')
     }
   }
@@ -53,22 +53,22 @@ export default function RegisterPage() {
           href="/"
           style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--white)', textDecoration: 'none', position: 'relative', zIndex: 1 }}
         >
-          Black<span style={{ color: 'var(--gold)' }}>Roaster</span>
+          GL<span style={{ color: 'var(--gold)' }}>OWW</span>
         </Link>
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', zIndex: 1 }}>
           <div className="gold-rule" style={{ marginBottom: '2rem' }} />
           <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.15rem, 1.8vw, 1.55rem)', fontWeight: 300, color: 'var(--white)', lineHeight: 1.55, fontStyle: 'italic', maxWidth: '290px' }}>
-            "Life is too short for ordinary walls."
+            "Life is too short for ordinary wellness."
           </p>
           <div style={{ marginTop: '2rem', fontFamily: 'var(--font-ui)', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold)' }}>
-            Join the BlackRoaster Community
+            Join the GLOWW Community
           </div>
         </div>
 
         {/* Feature list */}
         <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '2rem' }}>
-          {['Member-exclusive designs & prices', 'Order tracking & installation guides', 'Early access to new collections'].map((feat) => (
+          {['Member-exclusive products & prices', 'Order tracking & wellness guides', 'Early access to new launches'].map((feat) => (
             <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <span style={{ color: 'var(--gold)', fontSize: '0.7rem' }}>✓</span>
               <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.04em' }}>{feat}</span>
@@ -77,7 +77,7 @@ export default function RegisterPage() {
         </div>
 
         <p style={{ position: 'relative', zIndex: 1, fontFamily: 'var(--font-ui)', fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.22)', textTransform: 'uppercase' }}>
-          © {new Date().getFullYear()} BlackRoaster
+          © {new Date().getFullYear()} GLOWW
         </p>
       </div>
 

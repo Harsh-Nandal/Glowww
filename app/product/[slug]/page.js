@@ -171,7 +171,7 @@ export default function ProductDetailPage() {
               />
             ) : (
               <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f0ede8, #e0dbd3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--grey-text)' }}>
-                BlackRoaster
+                GLOWW
               </div>
             )}
           </div>
@@ -359,10 +359,10 @@ export default function ProductDetailPage() {
           {/* Perks */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', padding: '1.5rem', background: 'var(--ivory)', borderLeft: '3px solid var(--gold)' }}>
             {[
-              '✓  Free shipping on orders above ₹5,000',
-              '✓  10-year warranty on all panels',
+              '✓  Free shipping on orders above ₹999',
+              '✓  Third-party lab tested for purity',
               '✓  Easy returns within 7 days',
-              '✓  ISO certified fire-retardant material',
+              '✓  FSSAI certified manufacturing',
             ].map((text) => (
               <p key={text} style={{ fontSize: '0.82rem', color: 'var(--grey-dark)', fontFamily: 'var(--font-body)', margin: 0 }}>
                 {text}

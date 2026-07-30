@@ -13,6 +13,8 @@ import {
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
+import PhoneVerifyStep from '@/components/checkout/PhoneVerifyStep'
+import { isFirebaseConfigured } from '@/lib/firebase'
 
 const PAYMENT_METHODS = [
   { id: 'cod',        label: 'Cash on Delivery',     icon: '💵' },
@@ -70,6 +72,9 @@ export default function CheckoutPage() {
   const subtotal = useSelector(selectCartSubtotal)
   const { coupon, couponDiscount } = useSelector((s) => s.cart)
   const { isAuthenticated, user } = useSelector((s) => s.auth)
+  const isPhoneVerified = user?.isPhoneVerified
+  const [reverify, setReverify] = useState(false)
+  const needsPhoneVerification = isFirebaseConfigured && (!isPhoneVerified || reverify)
 
   const [address, setAddress] = useState({ name: '', phone: '', line1: '', line2: '', city: '', state: '', pincode: '', country: 'India' })
   const [paymentMethod, setPaymentMethod] = useState('cod')
@@ -84,6 +89,30 @@ export default function CheckoutPage() {
       .then(({ data }) => setStoreSettings(data.settings))
       .catch(() => {})
   }, [])
+
+  // Pincode autofill: once a valid 6-digit PIN is typed, look up City/State
+  // (fields stay editable — this only pre-fills, never locks).
+  useEffect(() => {
+    if (!/^\d{6}$/.test(address.pincode)) return
+    let ignore = false
+    const timer = setTimeout(() => {
+      axios.get(`/api/utils/pincode/${address.pincode}`)
+        .then(({ data }) => {
+          if (ignore || !data.found) return
+          setAddress((a) => ({ ...a, city: data.city, state: data.state }))
+        })
+        .catch(() => {})
+    }, 500)
+    return () => { ignore = true; clearTimeout(timer) }
+  }, [address.pincode])
+
+  // Pre-fill the phone field once we know a verified number (from this
+  // session's OTP flow, or an already-verified number on the user's account).
+  useEffect(() => {
+    if (isPhoneVerified && user?.phone && !address.phone) {
+      setAddress((a) => ({ ...a, phone: user.phone }))
+    }
+  }, [isPhoneVerified, user?.phone, address.phone])
 
   const discount = (subtotal * couponDiscount) / 100
   const shipping = subtotal >= storeSettings.freeShippingThreshold ? 0 : storeSettings.shippingCharge
@@ -109,6 +138,10 @@ export default function CheckoutPage() {
 
   const validateForm = () => {
     if (!isAuthenticated) { router.push('/auth/login?redirect=/checkout'); return false }
+    if (needsPhoneVerification) {
+      toast.error('Please verify your mobile number to continue')
+      return false
+    }
     if (!address.name || !address.phone || !address.line1 || !address.city || !address.state || !address.pincode) {
       toast.error('Please fill all required address fields')
       return false
@@ -143,7 +176,7 @@ export default function CheckoutPage() {
         key: data.keyId,
         amount: data.amount,
         currency: data.currency,
-        name: process.env.NEXT_PUBLIC_APP_NAME || 'BlackRoaster',
+        name: process.env.NEXT_PUBLIC_APP_NAME || 'GLOWW',
         description: 'Order payment',
         order_id: data.orderId,
         prefill: { name: address.name, contact: address.phone, email: user?.email || '' },
@@ -203,6 +236,14 @@ export default function CheckoutPage() {
         <h1 className="page-header-title">Checkout</h1>
       </div>
 
+      {isAuthenticated && needsPhoneVerification ? (
+        <div style={{ maxWidth: '560px', margin: '0 auto', padding: '3rem 6vw' }}>
+          <p style={{ marginBottom: '1.5rem', fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--grey-text)', textAlign: 'center' }}>
+            We verify every order's mobile number so deliveries reach a real, reachable phone.
+          </p>
+          <PhoneVerifyStep onVerified={(phone) => { setAddress((a) => ({ ...a, phone })); setReverify(false) }} />
+        </div>
+      ) : (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: '2rem', padding: '3rem 6vw', maxWidth: '1300px', margin: '0 auto' }} className="checkout-grid">
         {/* Left */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -216,9 +257,21 @@ export default function CheckoutPage() {
                   onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')} onBlur={(e) => (e.target.style.borderColor = 'var(--grey-mid)')} />
               </div>
               <div className="form-group">
-                <label className="form-label">Phone *</label>
-                <input name="phone" value={address.phone} onChange={handleAddressChange} style={INPUT} placeholder="+91 98765 43210"
-                  onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')} onBlur={(e) => (e.target.style.borderColor = 'var(--grey-mid)')} />
+                <label className="form-label">
+                  Phone * {isFirebaseConfigured && isPhoneVerified && <span style={{ color: '#16a34a' }}>✓ Verified</span>}
+                </label>
+                <input
+                  name="phone" value={address.phone} onChange={handleAddressChange}
+                  readOnly={isFirebaseConfigured && isPhoneVerified}
+                  style={{ ...INPUT, ...(isFirebaseConfigured && isPhoneVerified ? { background: 'var(--grey)', color: 'var(--grey-text)', cursor: 'default' } : {}) }}
+                  placeholder="+91 98765 43210"
+                  onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')} onBlur={(e) => (e.target.style.borderColor = 'var(--grey-mid)')}
+                />
+                {isFirebaseConfigured && isPhoneVerified && (
+                  <button type="button" onClick={() => setReverify(true)} style={{ alignSelf: 'flex-start', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gold)', fontFamily: 'var(--font-ui)', fontSize: '0.68rem', letterSpacing: '0.05em', padding: 0 }}>
+                    Use a different number
+                  </button>
+                )}
               </div>
               <div className="form-group" style={{ gridColumn: 'span 2' }}>
                 <label className="form-label">Address Line 1 *</label>
@@ -286,7 +339,7 @@ export default function CheckoutPage() {
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Special instructions, installation notes, preferred delivery time…"
+              placeholder="Special instructions, delivery notes, preferred delivery time…"
               style={{ width: '100%', padding: '1rem', background: 'var(--ivory)', border: '1.5px solid var(--grey-mid)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none', resize: 'vertical', minHeight: '100px', transition: 'border-color 0.2s' }}
               onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')}
               onBlur={(e) => (e.target.style.borderColor = 'var(--grey-mid)')}
@@ -403,6 +456,7 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
+      )}
 
       <style>{`
         @media (max-width: 1024px) { .checkout-grid { grid-template-columns: 1fr !important; } }

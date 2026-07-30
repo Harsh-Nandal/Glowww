@@ -18,7 +18,7 @@ const CONTACT_INFO = [
   {
     icon: '◈',
     title: 'Email',
-    lines: ['info@blackroaster.in', 'sales@blackroaster.in'],
+    lines: ['info@gloww.in', 'sales@gloww.in'],
   },
   {
     icon: '◇',
@@ -67,7 +67,7 @@ export default function ContactPage() {
       <div className="page-header">
         <div className="page-header-eyebrow">Get In Touch</div>
         <h1 className="page-header-title">
-          Let's Talk <em style={{ fontStyle: 'italic', color: 'var(--gold)' }}>Panels</em>
+          Let's Talk <em style={{ fontStyle: 'italic', color: 'var(--gold)' }}>Wellness</em>
         </h1>
         <p className="page-header-sub">Mon – Sat, 9 AM – 6 PM IST</p>
       </div>
@@ -79,7 +79,7 @@ export default function ContactPage() {
             <div className="gold-rule" style={{ marginBottom: '1.5rem' }} />
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 400, marginBottom: '0.75rem' }}>Our Details</h2>
             <p style={{ fontSize: '0.88rem', color: 'var(--grey-text)', lineHeight: 1.8, fontWeight: 300 }}>
-              From product questions to bulk orders — our team is here to help you find the perfect panel.
+              From product questions to bulk and trade orders — our team is here to help you find the right ritual.
             </p>
           </div>
 
@@ -103,7 +103,7 @@ export default function ContactPage() {
 
           {/* Trust badges */}
           <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--grey-mid)', display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
-            {['✓ Quick Response', '✓ Free Design Consultation', '✓ Bulk Order Support'].map((badge) => (
+            {['✓ Quick Response', '✓ Free Wellness Consultation', '✓ Bulk Order Support'].map((badge) => (
               <span key={badge} style={{ fontFamily: 'var(--font-ui)', fontSize: '0.72rem', color: 'var(--gold)', letterSpacing: '0.06em' }}>{badge}</span>
             ))}
           </div>
@@ -167,7 +167,7 @@ export default function ContactPage() {
                   value={form.message}
                   onChange={handleChange}
                   style={{ width: '100%', padding: '1rem', background: 'var(--white)', border: '1.5px solid var(--grey-mid)', color: 'var(--charcoal)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none', resize: 'vertical', minHeight: '140px', transition: 'border-color 0.2s' }}
-                  placeholder="Tell us about your project — room type, wall dimensions, design preference, quantity…"
+                  placeholder="Tell us what you're looking for — wellness goal, product preference, quantity…"
                   required
                   onFocus={(e) => (e.target.style.borderColor = 'var(--gold)')}
                   onBlur={(e) => (e.target.style.borderColor = 'var(--grey-mid)')}

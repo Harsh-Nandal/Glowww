@@ -1,3 +1,4 @@
+import { Cormorant_Garamond, Inter, Jost } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import Providers from '@/components/Providers'
 import Navbar from '@/components/layout/Navbar'
@@ -6,24 +7,46 @@ import CustomCursor from '@/components/ui/CustomCursor'
 import ScrollTop from '@/components/ui/ScrollTop'
 import '@/styles/globals.css'
 
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-cormorant',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const jost = Jost({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-jost',
+  display: 'swap',
+})
+
 export const metadata = {
   title: {
-    default: 'BlackRoaster — Premium PVC Wall Panels',
-    template: '%s | BlackRoaster',
+    default: 'GLOWW — Plant-Powered Wellness',
+    template: '%s | GLOWW',
   },
   description:
-    'Premium PVC wall panels for modern Indian interiors. 3D wall panels, ceiling panels, fluted panels, stone finish and wood finish — delivered pan India with custom sizing.',
+    'GLOWW makes clean-label wellness simple — cold-pressed juices, tablets, powders, and oils like sea buckthorn and moringa, lab-tested and delivered pan India.',
   keywords: [
-    'PVC wall panels',
-    'wall panels India',
-    '3D wall panels',
-    'ceiling panels',
-    'fluted panels',
-    'BlackRoaster panels',
+    'sea buckthorn juice',
+    'moringa tablets',
+    'wellness supplements India',
+    'clean label supplements',
+    'GLOWW wellness',
+    'plant-based nutraceuticals',
   ],
   openGraph: {
-    title: 'BlackRoaster — Premium PVC Wall Panels',
-    description: 'Elevate Every Wall, Every Room',
+    title: 'GLOWW — Plant-Powered Wellness',
+    description: 'Nourish From Within, Daily',
     type: 'website',
     locale: 'en_IN',
   },
@@ -31,7 +54,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${cormorant.variable} ${inter.variable} ${jost.variable}`}>
       <body>
         <Providers>
           <CustomCursor />
@@ -43,14 +66,14 @@ export default function RootLayout({ children }) {
             position="bottom-right"
             toastOptions={{
               style: {
-                fontFamily: "'Jost', sans-serif",
+                fontFamily: 'var(--font-jost), sans-serif',
                 fontSize: '0.85rem',
                 letterSpacing: '0.05em',
-                borderRadius: '0px',
-                background: '#111111',
+                borderRadius: '12px',
+                background: '#0B1F17',
                 color: '#fff',
               },
-              success: { iconTheme: { primary: '#C9A86A', secondary: '#fff' } },
+              success: { iconTheme: { primary: '#CBA135', secondary: '#fff' } },
             }}
           />
         </Providers>

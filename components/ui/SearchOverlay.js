@@ -95,7 +95,7 @@ export default function SearchOverlay() {
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search wall panels, ceiling panels, fluted, stone finish…"
+          placeholder="Search juices, tablets, powders, oils…"
           style={{
             width: '100%',
             height: '64px',

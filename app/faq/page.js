@@ -7,44 +7,40 @@ export default function FAQPage() {
 
   const FAQS = [
     {
-      q: 'What are PVC wall panels?',
-      a: 'PVC wall panels are lightweight, rigid sheets made from Polyvinyl Chloride. They are used to cover walls and ceilings to add texture, pattern, or a decorative finish — without plastering, tiling, or painting.',
+      q: 'What makes GLOWW products different?',
+      a: 'GLOWW products are clean-label by design — no added sugar, artificial colours, or unnecessary fillers. We formulate with whole-food actives like sea buckthorn, moringa, and ashwagandha, and every batch is third-party lab-tested for purity and potency.',
     },
     {
-      q: 'Are the panels waterproof?',
-      a: 'Yes. All BlackRoaster panels are 100% waterproof and humidity-resistant, making them ideal for bathrooms, kitchens, basements, and any other wet areas.',
+      q: 'Are your products vegan and safe for daily use?',
+      a: 'Yes. Our entire range is 100% vegan, non-GMO, and formulated for daily use at recommended dosages. If you\'re pregnant, nursing, or on medication, we recommend checking with your doctor before starting any new supplement.',
     },
     {
-      q: 'Are the panels fire-retardant?',
-      a: 'Yes. Our panels carry V0/V2 fire-retardant ratings as per BIS standards, meeting safety requirements for residential and commercial buildings.',
+      q: 'Are your products FSSAI certified?',
+      a: 'Yes. All GLOWW products are manufactured in FSSAI-licensed facilities and meet safety standards for nutraceuticals and functional foods sold in India.',
     },
     {
-      q: 'How do I install the panels?',
-      a: 'Panels can be fixed using construction adhesive (such as Fevicol MR or similar) directly onto a clean, dry wall surface. Some designs also support a click-lock system. Our Installation Guide page has step-by-step instructions.',
+      q: 'How should I store juices, powders, and tablets?',
+      a: 'Juices and shots should be refrigerated after opening and consumed within the printed window. Tablets, capsules, and powders should be stored in a cool, dry place away from direct sunlight, with the cap tightly closed.',
     },
     {
-      q: 'Can I get custom sizes?',
-      a: 'Yes. We offer custom cutting for bulk orders at no extra charge. Contact our sales team with your wall dimensions and we will advise the best panel configuration.',
-    },
-    {
-      q: 'What is the standard panel size?',
-      a: 'Most panels come in 2440mm × 1220mm (8ft × 4ft) sheets. Thickness ranges from 5mm to 10mm depending on the design. Individual product pages list exact specifications.',
+      q: 'Do you offer subscriptions?',
+      a: 'Yes. Subscribe to your favourite products for automatic monthly delivery and save 15% on every order, with the flexibility to pause, skip, or cancel anytime from your account.',
     },
     {
       q: 'How long does delivery take?',
-      a: 'Standard delivery across India takes 5–8 business days. Express options are available for select pin codes. Bulk / project orders are dispatched within 48 hours of confirmation.',
+      a: 'Standard delivery across India takes 3–6 business days. Temperature-sensitive products ship in insulated packaging to protect potency and freshness in transit.',
     },
     {
       q: 'What is your return policy?',
-      a: 'We accept returns within 7 days of delivery for manufacturing defects. Damage during self-installation is not covered. Please inspect panels at the time of delivery.',
+      a: 'For food safety reasons, we can only accept returns for products that arrive damaged, defective, or incorrect — please share unboxing photos within 48 hours of delivery so we can help quickly.',
     },
     {
-      q: 'Do you offer samples?',
-      a: 'Yes. You can request a physical sample via our Contact page. Sample shipping charges apply and are refundable on your first bulk order.',
+      q: 'Do you offer samples or trial packs?',
+      a: 'Yes. Several products are available in a smaller trial size, and we occasionally include sachet samples with orders so you can try before committing to a full-size bottle.',
     },
     {
-      q: 'Do you supply to builders and interior designers?',
-      a: 'Absolutely. We have a dedicated trade programme with volume pricing for architects, interior designers, and builders. Contact sales@blackroaster.in for trade enquiries.',
+      q: 'Do you supply to gyms, clinics, or retailers?',
+      a: 'Absolutely. We have a dedicated trade programme with volume pricing for nutritionists, gyms, clinics, and retailers. Contact sales@gloww.in for trade enquiries.',
     },
   ]
 

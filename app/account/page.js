@@ -28,7 +28,7 @@ export default function AccountPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
           {[
             { label: 'My Orders', desc: 'Track your current orders and view order history.', href: '/orders', icon: '◎' },
-            { label: 'Wishlist', desc: 'Browse your saved panels and move them to cart.', href: '/wishlist', icon: '◇' },
+            { label: 'Wishlist', desc: 'Browse your saved products and move them to cart.', href: '/wishlist', icon: '◇' },
             { label: 'Contact Support', desc: 'Need help? Reach our team for any queries.', href: '/contact', icon: '◉' },
           ].map((item) => (
             <Link

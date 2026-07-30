@@ -31,7 +31,7 @@ function CategoryModal({ category, categories, onClose, onSave }) {
     try {
       const fd = new FormData()
       fd.append('file', file)
-      fd.append('folder', 'luxwall/categories')
+      fd.append('folder', 'gloww/categories')
       const { data } = await axios.post('/api/upload', fd)
       set('image', data.url)
     } catch { toast.error('Upload failed') }

@@ -74,6 +74,12 @@ const authSlice = createSlice({
       state.token = action.payload.token
       state.isAuthenticated = true
     },
+    setPhoneVerified(state, action) {
+      if (state.user) {
+        state.user.phone = action.payload.phone
+        state.user.isPhoneVerified = true
+      }
+    },
   },
   extraReducers: (builder) => {
     // Login
@@ -133,5 +139,5 @@ const authSlice = createSlice({
   },
 })
 
-export const { clearAuthError, setCredentials } = authSlice.actions
+export const { clearAuthError, setCredentials, setPhoneVerified } = authSlice.actions
 export default authSlice.reducer

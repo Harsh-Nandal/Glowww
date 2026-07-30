@@ -54,21 +54,21 @@ function LoginForm() {
           href="/"
           style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--white)', textDecoration: 'none', position: 'relative', zIndex: 1 }}
         >
-          Black<span style={{ color: 'var(--gold)' }}>Roaster</span>
+          GL<span style={{ color: 'var(--gold)' }}>OWW</span>
         </Link>
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', zIndex: 1 }}>
           <div className="gold-rule" style={{ marginBottom: '2rem' }} />
           <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.15rem, 1.8vw, 1.55rem)', fontWeight: 300, color: 'var(--white)', lineHeight: 1.55, fontStyle: 'italic', maxWidth: '290px' }}>
-            "Where every wall tells a story of craftsmanship."
+            "Wellness that's honest about what's inside the bottle."
           </p>
           <div style={{ marginTop: '2rem', fontFamily: 'var(--font-ui)', fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--gold)' }}>
-            Premium PVC Wall Panel Manufacturers
+            Plant-Powered Wellness, Lab-Tested
           </div>
         </div>
 
         <p style={{ position: 'relative', zIndex: 1, fontFamily: 'var(--font-ui)', fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.22)', textTransform: 'uppercase' }}>
-          © {new Date().getFullYear()} BlackRoaster
+          © {new Date().getFullYear()} GLOWW
         </p>
       </div>
 
@@ -144,7 +144,7 @@ function LoginForm() {
 
           <div style={{ borderTop: '1px solid var(--grey-mid)', paddingTop: '1.5rem', marginTop: '2rem' }}>
             <p style={{ fontFamily: 'var(--font-ui)', fontSize: '0.82rem', color: 'var(--grey-text)' }}>
-              New to BlackRoaster?{' '}
+              New to GLOWW?{' '}
               <Link href="/auth/register" style={{ color: 'var(--charcoal)', fontWeight: 600, textDecoration: 'none' }}>
                 Create an account →
               </Link>

@@ -24,7 +24,7 @@ function Field({ label, children }) {
 async function uploadFile(file) {
   const fd = new FormData()
   fd.append('file', file)
-  fd.append('folder', 'luxwall/products')
+  fd.append('folder', 'gloww/products')
   const { data } = await axios.post('/api/upload', fd)
   return data.url
 }

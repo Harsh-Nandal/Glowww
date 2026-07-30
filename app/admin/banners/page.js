@@ -35,7 +35,7 @@ function BannerModal({ banner, onClose, onSave }) {
     try {
       const fd = new FormData()
       fd.append('file', file)
-      fd.append('folder', 'luxwall/banners')
+      fd.append('folder', 'gloww/banners')
       const { data } = await axios.post('/api/upload', fd)
       set(field, data.url)
     } catch { toast.error('Upload failed') }

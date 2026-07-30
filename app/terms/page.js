@@ -4,27 +4,27 @@ export default function TermsPage() {
   const sections = [
     {
       title: 'Acceptance of Terms',
-      body: 'By placing an order or using the BlackRoaster website, you agree to these terms and conditions. If you do not agree, please do not use our services.',
+      body: 'By placing an order or using the GLOWW website, you agree to these terms and conditions. If you do not agree, please do not use our services.',
     },
     {
       title: 'Products & Pricing',
-      body: 'All product dimensions, colours, and textures shown on the website are representative. Actual products may vary slightly due to manufacturing tolerances and screen calibration. Prices are in Indian Rupees (INR) and are inclusive of GST unless stated otherwise. Prices may change without notice.',
+      body: 'Product images, packaging, and labels shown on the website are representative and may vary slightly between batches. Prices are in Indian Rupees (INR) and are inclusive of GST unless stated otherwise. Prices may change without notice.',
     },
     {
       title: 'Orders & Payment',
-      body: 'Orders are confirmed only upon successful payment. We accept all major credit/debit cards, UPI, net banking, and wallets via Razorpay. COD is not available for panel orders above ₹10,000.',
+      body: 'Orders are confirmed only upon successful payment. We accept all major credit/debit cards, UPI, net banking, and wallets via Razorpay. COD is not available for orders above ₹10,000.',
     },
     {
       title: 'Shipping',
-      body: 'We ship pan India. Delivery timelines are estimates and may vary due to location, courier availability, or unforeseen circumstances. BlackRoaster is not liable for delays caused by third-party courier services.',
+      body: 'We ship pan India. Temperature-sensitive products are shipped in insulated packaging. Delivery timelines are estimates and may vary due to location, courier availability, or unforeseen circumstances. GLOWW is not liable for delays caused by third-party courier services.',
     },
     {
       title: 'Returns & Refunds',
-      body: 'Returns are accepted within 7 days of delivery for manufacturing defects only. Products must be unused and in original packaging. Customised or cut-to-size panels are non-returnable. Refunds are processed within 5–7 business days after inspection.',
+      body: 'Returns are accepted within 7 days of delivery for damaged, defective, or incorrect items only. For food safety reasons, opened or used consumable products cannot be returned. Refunds are processed within 5–7 business days after inspection.',
     },
     {
       title: 'Limitation of Liability',
-      body: 'BlackRoaster\'s total liability for any claim shall not exceed the value of the order in question. We are not liable for indirect, incidental, or consequential damages arising from the use of our products.',
+      body: 'GLOWW\'s total liability for any claim shall not exceed the value of the order in question. We are not liable for indirect, incidental, or consequential damages arising from the use of our products.',
     },
     {
       title: 'Governing Law',

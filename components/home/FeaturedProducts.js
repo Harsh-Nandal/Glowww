@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
+import { ArrowRight } from 'lucide-react'
 import ProductCard from '@/components/product/ProductCard'
 import ProductSkeleton from '@/components/product/ProductSkeleton'
+import Reveal from '@/components/ui/Reveal'
 
 const TABS = [
   { label: 'Featured', param: 'featured=true' },
@@ -35,50 +37,51 @@ export default function FeaturedProducts() {
   return (
     <section className="section" style={{ background: 'var(--ivory)' }}>
       {/* Header */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-          marginBottom: '3rem',
-          flexWrap: 'wrap',
-          gap: '2rem',
-        }}
-      >
-        <div>
-          <div className="section-eyebrow">Our Collection</div>
-          <h2 className="section-title">
-            Crafted for <em>Excellence</em>
-          </h2>
-        </div>
+      <Reveal>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+            marginBottom: '3rem',
+            flexWrap: 'wrap',
+            gap: '2rem',
+          }}
+        >
+          <div>
+            <div className="section-eyebrow">Our Collection</div>
+            <h2 className="section-title">
+              Crafted for <em>Excellence</em>
+            </h2>
+          </div>
 
-        {/* Tabs */}
-        <div style={{ display: 'flex', gap: '0' }}>
-          {TABS.map((tab, i) => (
-            <button
-              key={tab.label}
-              onClick={() => setActiveTab(i)}
-              style={{
-                fontFamily: 'var(--font-ui)',
-                fontSize: '0.72rem',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                padding: '0.7rem 1.4rem',
-                border: '1.5px solid',
-                borderColor: activeTab === i ? 'var(--charcoal)' : 'var(--grey-mid)',
-                background: activeTab === i ? 'var(--charcoal)' : 'transparent',
-                color: activeTab === i ? 'var(--white)' : 'var(--grey-text)',
-                cursor: 'pointer',
-                transition: 'all 0.3s',
-                marginRight: '-1.5px',
-                fontWeight: 500,
-              }}
-            >
-              {tab.label}
-            </button>
-          ))}
+          {/* Tabs */}
+          <div className="glass" style={{ display: 'flex', gap: '0.25rem', padding: '0.3rem', borderRadius: 'var(--radius-full)' }}>
+            {TABS.map((tab, i) => (
+              <button
+                key={tab.label}
+                onClick={() => setActiveTab(i)}
+                style={{
+                  fontFamily: 'var(--font-ui)',
+                  fontSize: '0.72rem',
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  padding: '0.65rem 1.3rem',
+                  border: 'none',
+                  borderRadius: 'var(--radius-full)',
+                  background: activeTab === i ? 'var(--gradient-primary)' : 'transparent',
+                  color: activeTab === i ? 'var(--white)' : 'var(--grey-dark)',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  fontWeight: 500,
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      </Reveal>
 
       {/* Grid */}
       <div
@@ -92,8 +95,10 @@ export default function FeaturedProducts() {
         {loading ? (
           <ProductSkeleton count={8} />
         ) : products.length > 0 ? (
-          products.map((product) => (
-            <ProductCard key={product._id} product={product} />
+          products.map((product, i) => (
+            <Reveal key={product._id} delay={Math.min(i * 0.06, 0.3)}>
+              <ProductCard product={product} />
+            </Reveal>
           ))
         ) : (
           <div
@@ -107,7 +112,7 @@ export default function FeaturedProducts() {
             <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', marginBottom: '1rem' }}>
               No products found
             </p>
-            <Link href="/shop" style={{ color: 'var(--gold)' }}>
+            <Link href="/shop" style={{ color: 'var(--emerald)' }}>
               Browse all products →
             </Link>
           </div>
@@ -121,21 +126,22 @@ export default function FeaturedProducts() {
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.75rem',
+            gap: '0.6rem',
             fontFamily: 'var(--font-ui)',
             fontSize: '0.72rem',
-            letterSpacing: '0.25em',
+            letterSpacing: '0.2em',
             textTransform: 'uppercase',
             fontWeight: 600,
-            color: 'var(--charcoal)',
+            color: 'var(--white)',
+            background: 'var(--gradient-primary)',
             textDecoration: 'none',
-            borderBottom: '1.5px solid var(--gold)',
-            paddingBottom: '4px',
-            transition: 'all 0.3s',
+            padding: '0.9rem 2rem',
+            borderRadius: 'var(--radius-full)',
+            boxShadow: 'var(--shadow-emerald)',
           }}
         >
           View All Products
-          <span>→</span>
+          <ArrowRight size={15} />
         </Link>
       </div>
 

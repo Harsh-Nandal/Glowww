@@ -1,17 +1,20 @@
 import HeroSection from '@/components/home/HeroSection'
 import CategorySection from '@/components/home/CategorySection'
 import FeaturedProducts from '@/components/home/FeaturedProducts'
-import RoomInspirationSection from '@/components/home/RoomInspirationSection'
+import ShopByConcernSection from '@/components/home/ShopByConcernSection'
 import WhyUsSection from '@/components/home/WhyUsSection'
 import StatsSection from '@/components/home/StatsSection'
+import WatchLoveSection from '@/components/home/WatchLoveSection'
 import TestimonialsSection from '@/components/home/TestimonialsSection'
 import ProjectsSection from '@/components/home/ProjectsSection'
+import PressLogosSection from '@/components/home/PressLogosSection'
+import InstagramFeedSection from '@/components/home/InstagramFeedSection'
 import CTASection from '@/components/home/CTASection'
 
 export const metadata = {
-  title: 'BlackRoaster — Premium PVC Wall Panels | Elevate Every Wall, Every Room',
+  title: 'GLOWW — Plant-Powered Wellness | Nourish From Within',
   description:
-    'Premium PVC wall panels for modern interiors. 3D wall panels, ceiling panels, fluted, stone and wood finish — delivered pan India with custom sizing.',
+    'GLOWW makes clean-label wellness simple — cold-pressed juices, tablets, powders, and oils like sea buckthorn and moringa, lab-tested and delivered pan India.',
 }
 
 export default function HomePage() {
@@ -20,12 +23,15 @@ export default function HomePage() {
       <HeroSection />
       <CategorySection />
       <FeaturedProducts />
-      <RoomInspirationSection />
+      <ShopByConcernSection />
       <WhyUsSection />
       <StatsSection />
+      <WatchLoveSection />
       <ProjectsSection />
+      <PressLogosSection />
       <TestimonialsSection />
       <CTASection />
+      <InstagramFeedSection />
     </>
   )
 }

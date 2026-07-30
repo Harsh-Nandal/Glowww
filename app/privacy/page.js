@@ -12,7 +12,7 @@ export default function PrivacyPage() {
     },
     {
       title: 'Payment Security',
-      body: 'All payments are processed securely through Razorpay. BlackRoaster does not store your card details. Razorpay is PCI-DSS compliant.',
+      body: 'All payments are processed securely through Razorpay. GLOWW does not store your card details. Razorpay is PCI-DSS compliant.',
     },
     {
       title: 'Cookies',
@@ -20,15 +20,15 @@ export default function PrivacyPage() {
     },
     {
       title: 'Data Retention',
-      body: 'We retain your account and order data for up to 5 years for accounting and legal purposes. You may request deletion of your account at any time by emailing info@blackroaster.in.',
+      body: 'We retain your account and order data for up to 5 years for accounting and legal purposes. You may request deletion of your account at any time by emailing info@gloww.in.',
     },
     {
       title: 'Your Rights',
-      body: 'You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at info@blackroaster.in. We will respond within 10 business days.',
+      body: 'You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at info@gloww.in. We will respond within 10 business days.',
     },
     {
       title: 'Contact',
-      body: 'For privacy-related questions, email info@blackroaster.in or write to: BlackRoaster, SCO 215, Sector 34-A, Chandigarh – 160022, Punjab, India.',
+      body: 'For privacy-related questions, email info@gloww.in or write to: GLOWW, SCO 215, Sector 34-A, Chandigarh – 160022, Punjab, India.',
     },
   ]
 

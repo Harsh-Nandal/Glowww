@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 
 const STATS = [
-  { value: 10000, suffix: '+', label: 'Projects Completed', duration: 2000 },
-  { value: 500, suffix: '+', label: 'Panel Designs', duration: 1500 },
+  { value: 1000000, suffix: '+', label: 'Bottles Sold', duration: 2000 },
+  { value: 50, suffix: '+', label: 'Wellness Products', duration: 1500 },
   { value: 98, suffix: '%', label: 'Satisfaction Rate', duration: 1800 },
-  { value: 8, suffix: '+', label: 'Years of Excellence', duration: 1200 },
+  { value: 5, suffix: '+', label: 'Years of Excellence', duration: 1200 },
 ]
 
 function useCountUp(target, duration, started) {
@@ -29,10 +29,10 @@ function StatItem({ stat, started }) {
   const count = useCountUp(stat.value, stat.duration, started)
   return (
     <div style={{ textAlign: 'center', padding: '1rem' }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 300, color: 'var(--white)', lineHeight: 1, marginBottom: '0.5rem' }}>
-        {count.toLocaleString('en-IN')}<span style={{ color: 'var(--gold)' }}>{stat.suffix}</span>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 500, color: 'var(--white)', lineHeight: 1, marginBottom: '0.5rem' }}>
+        {count.toLocaleString('en-IN')}<span style={{ color: 'var(--soft-yellow)' }}>{stat.suffix}</span>
       </div>
-      <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
+      <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>
         {stat.label}
       </div>
     </div>
@@ -53,12 +53,12 @@ export default function StatsSection() {
   }, [])
 
   return (
-    <section ref={ref} style={{ background: 'var(--charcoal)', padding: '80px 6vw', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(rgba(201,168,106,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,106,0.03) 1px, transparent 1px)`, backgroundSize: '60px 60px', pointerEvents: 'none' }} />
+    <section ref={ref} style={{ background: 'var(--gradient-primary)', padding: '80px 6vw', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'var(--gradient-mesh)', pointerEvents: 'none' }} />
       <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem', position: 'relative' }}>
         {STATS.map((stat, i) => (
           <div key={stat.label} style={{ position: 'relative' }}>
-            {i > 0 && <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', height: '60px', width: '1px', background: 'rgba(255,255,255,0.08)' }} />}
+            {i > 0 && <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', height: '60px', width: '1px', background: 'rgba(255,255,255,0.15)' }} />}
             <StatItem stat={stat} started={started} />
           </div>
         ))}

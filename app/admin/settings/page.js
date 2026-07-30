@@ -20,8 +20,8 @@ function Field({ label, hint, children }) {
 }
 
 const DEFAULT_SETTINGS = {
-  siteName: 'BlackRoaster',
-  siteTagline: 'Premium PVC Wall Panels',
+  siteName: 'GLOWW',
+  siteTagline: 'Plant-Powered Wellness',
   contactEmail: '',
   contactPhone: '',
   contactAddress: '',

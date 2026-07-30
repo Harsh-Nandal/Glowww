@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { Heart, Star } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '@/store/slices/cartSlice'
 import { toggleWishlistLocal } from '@/store/slices/wishlistSlice'
@@ -62,10 +63,19 @@ export default function ProductCard({ product }) {
       href={`/product/${product.slug}`}
       style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
     >
-      <article
+      <motion.article
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        style={{ position: 'relative' }}
+        whileHover={{ y: -6 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+        style={{
+          position: 'relative',
+          background: 'var(--white)',
+          borderRadius: 'var(--radius)',
+          padding: '0.75rem',
+          boxShadow: hovered ? 'var(--shadow-lg)' : 'var(--shadow)',
+          transition: 'box-shadow 0.35s ease',
+        }}
       >
         {/* Image */}
         <div
@@ -73,8 +83,9 @@ export default function ProductCard({ product }) {
             position: 'relative',
             aspectRatio: '3/4',
             overflow: 'hidden',
+            borderRadius: 'var(--radius-sm)',
             background: 'var(--grey)',
-            marginBottom: '1.2rem',
+            marginBottom: '1.1rem',
           }}
         >
           {image ? (
@@ -86,7 +97,7 @@ export default function ProductCard({ product }) {
                 height: '100%',
                 objectFit: 'cover',
                 transition: 'transform 0.6s ease, opacity 0.3s ease',
-                transform: hovered ? 'scale(1.05)' : 'scale(1)',
+                transform: hovered ? 'scale(1.06)' : 'scale(1)',
               }}
               loading="lazy"
             />
@@ -95,33 +106,34 @@ export default function ProductCard({ product }) {
               style={{
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(135deg, #f0ede8 0%, #e0dbd3 100%)',
+                background: 'var(--gradient-mesh), var(--grey)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: 'var(--grey-text)',
+                color: 'var(--emerald)',
                 fontSize: '0.8rem',
                 fontFamily: 'var(--font-ui)',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
               }}
             >
-              BR
+              GLOWW
             </div>
           )}
 
           {/* Badges */}
-          <div style={{ position: 'absolute', top: '1rem', left: '1rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+          <div style={{ position: 'absolute', top: '0.85rem', left: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             {product.isNewArrival && (
               <span
                 style={{
-                  background: 'var(--charcoal)',
+                  background: 'var(--gradient-primary)',
                   color: 'var(--white)',
                   fontFamily: 'var(--font-ui)',
                   fontSize: '0.6rem',
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
-                  padding: '3px 8px',
+                  padding: '4px 10px',
+                  borderRadius: 'var(--radius-full)',
                   fontWeight: 600,
                 }}
               >
@@ -131,13 +143,14 @@ export default function ProductCard({ product }) {
             {hasDiscount && (
               <span
                 style={{
-                  background: 'var(--gold)',
-                  color: 'var(--charcoal)',
+                  background: 'var(--gradient-gold)',
+                  color: 'var(--emerald-dark)',
                   fontFamily: 'var(--font-ui)',
                   fontSize: '0.6rem',
                   letterSpacing: '0.15em',
-                  padding: '3px 8px',
-                  fontWeight: 600,
+                  padding: '4px 10px',
+                  borderRadius: 'var(--radius-full)',
+                  fontWeight: 700,
                 }}
               >
                 −{discountPct}%
@@ -149,25 +162,24 @@ export default function ProductCard({ product }) {
           <button
             onClick={handleWishlist}
             aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+            className="glass"
             style={{
               position: 'absolute',
-              top: '1rem',
-              right: '1rem',
+              top: '0.85rem',
+              right: '0.85rem',
               width: '36px',
               height: '36px',
-              background: 'rgba(255,255,255,0.9)',
-              border: 'none',
+              borderRadius: '50%',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1rem',
-              opacity: hovered ? 1 : 0,
-              transition: 'opacity 0.3s, color 0.3s',
-              color: isWishlisted ? 'var(--gold)' : 'var(--grey-dark)',
+              opacity: hovered || isWishlisted ? 1 : 0,
+              transition: 'opacity 0.3s, color 0.3s, transform 0.2s',
+              color: isWishlisted ? '#e0577a' : 'var(--grey-dark)',
             }}
           >
-            {isWishlisted ? '♥' : '♡'}
+            <Heart size={16} strokeWidth={1.75} fill={isWishlisted ? '#e0577a' : 'none'} />
           </button>
 
           {/* Quick add */}
@@ -175,31 +187,32 @@ export default function ProductCard({ product }) {
             onClick={handleAddToCart}
             style={{
               position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              background: 'rgba(17,17,17,0.9)',
+              bottom: '0.6rem',
+              left: '0.6rem',
+              right: '0.6rem',
+              background: 'var(--gradient-primary)',
               color: 'var(--white)',
               border: 'none',
+              borderRadius: 'var(--radius-full)',
               cursor: 'pointer',
               fontFamily: 'var(--font-ui)',
-              fontSize: '0.68rem',
-              letterSpacing: '0.25em',
+              fontSize: '0.66rem',
+              letterSpacing: '0.2em',
               textTransform: 'uppercase',
               fontWeight: 600,
-              padding: '0.9rem',
-              transform: hovered ? 'translateY(0)' : 'translateY(100%)',
-              transition: 'transform 0.3s ease',
+              padding: '0.85rem',
+              boxShadow: 'var(--shadow-emerald)',
+              transform: hovered ? 'translateY(0)' : 'translateY(120%)',
+              opacity: hovered ? 1 : 0,
+              transition: 'transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--gold)')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(17,17,17,0.9)')}
           >
             {product.type === 'variable' ? 'Select Options' : 'Add to Cart'}
           </button>
         </div>
 
         {/* Info */}
-        <div>
+        <div style={{ padding: '0 0.4rem 0.4rem' }}>
           <div
             style={{
               fontFamily: 'var(--font-ui)',
@@ -216,9 +229,10 @@ export default function ProductCard({ product }) {
             style={{
               fontFamily: 'var(--font-display)',
               fontSize: '1.05rem',
-              fontWeight: 400,
+              fontWeight: 500,
               marginBottom: '0.5rem',
               lineHeight: 1.3,
+              color: 'var(--charcoal)',
             }}
           >
             {product.name}
@@ -228,8 +242,8 @@ export default function ProductCard({ product }) {
               style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: '1.1rem',
-                fontWeight: 500,
-                color: hasDiscount ? 'var(--gold)' : 'var(--charcoal)',
+                fontWeight: 600,
+                color: hasDiscount ? 'var(--emerald)' : 'var(--charcoal)',
               }}
             >
               {pricePrefix}₹{price?.toLocaleString('en-IN')}
@@ -250,18 +264,16 @@ export default function ProductCard({ product }) {
 
           {/* Rating */}
           {product.reviewCount > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.4rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.5rem' }}>
               <div style={{ display: 'flex', gap: '2px' }}>
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <span
+                  <Star
                     key={star}
-                    style={{
-                      fontSize: '0.7rem',
-                      color: star <= Math.round(product.rating) ? 'var(--gold)' : 'var(--grey-mid)',
-                    }}
-                  >
-                    ★
-                  </span>
+                    size={12}
+                    strokeWidth={1.5}
+                    fill={star <= Math.round(product.rating) ? 'var(--gold)' : 'none'}
+                    style={{ color: star <= Math.round(product.rating) ? 'var(--gold)' : 'var(--grey-mid)' }}
+                  />
                 ))}
               </div>
               <span style={{ fontSize: '0.72rem', color: 'var(--grey-text)', fontFamily: 'var(--font-ui)' }}>
@@ -270,7 +282,7 @@ export default function ProductCard({ product }) {
             </div>
           )}
         </div>
-      </article>
+      </motion.article>
     </Link>
   )
 }

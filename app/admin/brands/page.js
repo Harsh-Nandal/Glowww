@@ -30,7 +30,7 @@ function BrandModal({ brand, onClose, onSave }) {
     try {
       const fd = new FormData()
       fd.append('file', file)
-      fd.append('folder', 'luxwall/brands')
+      fd.append('folder', 'gloww/brands')
       const { data } = await axios.post('/api/upload', fd)
       set('logo', data.url)
     } catch { toast.error('Upload failed') }
