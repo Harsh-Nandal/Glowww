@@ -36,6 +36,13 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+# The container runtime sets HOSTNAME to the container's own hostname (e.g.
+# Render's "srv-xxxx"), and the standalone server.js does
+# `process.env.HOSTNAME || '0.0.0.0'` — so without this override it tries to
+# bind to that hostname instead of all interfaces, and the platform's proxy
+# can never reach it (502 "unable to handle this request" despite the
+# process logging that it started fine).
+ENV HOSTNAME=0.0.0.0
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
