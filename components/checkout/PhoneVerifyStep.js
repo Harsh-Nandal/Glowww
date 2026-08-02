@@ -79,7 +79,8 @@ export default function PhoneVerifyStep({ onVerified }) {
       setCooldown(30)
       toast.success('OTP sent')
     } catch (err) {
-      toast.error(ERROR_MESSAGES[err.code] || 'Could not send OTP. Please try again.')
+      console.error('[firebase] sendOtp failed:', err.code, err.message)
+      toast.error(ERROR_MESSAGES[err.code] || `Could not send OTP (${err.code || 'unknown error'})`)
     } finally {
       setSending(false)
     }
@@ -97,6 +98,7 @@ export default function PhoneVerifyStep({ onVerified }) {
       toast.success('Mobile number verified')
       onVerified(data.phone)
     } catch (err) {
+      console.error('[firebase] verifyOtp failed:', err.code, err.message)
       toast.error(ERROR_MESSAGES[err.code] || err.response?.data?.message || 'Verification failed')
     } finally {
       setVerifying(false)
