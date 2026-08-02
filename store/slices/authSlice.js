@@ -66,6 +66,16 @@ const authSlice = createSlice({
     loading: false,
     error: null,
     profileLoading: false,
+    // Bumped on every login/register/logout. fetchProfile snapshots this at
+    // dispatch time and checks it again on completion — if a login or
+    // logout happened in between, its result is stale and gets dropped
+    // instead of clobbering newer state. Needed because the bootstrap
+    // fetchProfile() (checking the httpOnly cookie on app load) can still
+    // be in flight when the user submits the login form and finishes
+    // second, otherwise its rejection flips a just-logged-in user back to
+    // logged out.
+    authVersion: 0,
+    profileCheckVersion: -1,
   },
   reducers: {
     clearAuthError(state) { state.error = null },
@@ -90,6 +100,7 @@ const authSlice = createSlice({
         state.user = action.payload.user
         state.token = action.payload.token
         state.isAuthenticated = true
+        state.authVersion += 1
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false
@@ -104,6 +115,7 @@ const authSlice = createSlice({
         state.user = action.payload.user
         state.token = action.payload.token
         state.isAuthenticated = true
+        state.authVersion += 1
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false
@@ -115,18 +127,24 @@ const authSlice = createSlice({
       state.user = null
       state.token = null
       state.isAuthenticated = false
+      state.authVersion += 1
     })
 
     // Fetch Profile
     builder
-      .addCase(fetchProfile.pending, (state) => { state.profileLoading = true })
+      .addCase(fetchProfile.pending, (state) => {
+        state.profileLoading = true
+        state.profileCheckVersion = state.authVersion
+      })
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.profileLoading = false
+        if (state.authVersion !== state.profileCheckVersion) return // a login/logout happened while this was in flight
         state.user = action.payload.user
         state.isAuthenticated = true
       })
       .addCase(fetchProfile.rejected, (state) => {
         state.profileLoading = false
+        if (state.authVersion !== state.profileCheckVersion) return // a login/logout happened while this was in flight
         state.isAuthenticated = false
         state.user = null
       })
