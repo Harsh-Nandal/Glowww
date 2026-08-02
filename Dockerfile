@@ -27,6 +27,16 @@ ENV NEXT_PUBLIC_FIREBASE_APP_ID=$NEXT_PUBLIC_FIREBASE_APP_ID
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
+# BACKEND_URL isn't a NEXT_PUBLIC_* var (it's only read server-side), but for
+# `output: 'standalone'` builds, next.config.js's rewrites() is evaluated
+# ONCE during `next build` and its resolved destination is baked as a static
+# string into the generated server.js — it is NOT re-read from the
+# environment at runtime. So this must be supplied as a build arg too, same
+# as the container's runtime BACKEND_URL, or the rewrite silently bakes in
+# the http://localhost:5000 fallback and every /api/* call 500s in prod.
+ARG BACKEND_URL
+ENV BACKEND_URL=$BACKEND_URL
+
 # Calls next build directly rather than the npm "build" script — that script
 # sets NODE_TLS_REJECT_UNAUTHORIZED=0 for the maintainer's local network, which
 # has no place in a production image build.
